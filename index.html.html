@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <!-- SEO Nacional (España) -->
+    <title>Ordénate - Ordena tu cuarto para ordenar tu mente | App IA española</title>
+    <meta name="description" content="Ordénate: app con IA que te guía paso a paso para ordenar tu cuarto y clarificar tu mente. Prueba gratuita 7 días. Hecha en España.">
+    <meta name="keywords" content="ordenar cuarto, app productividad, IA, salud mental, organización, España">
+    <meta name="author" content="Ordénate">
+    <meta name="geo.placename" content="España">
+    <meta name="geo.region" content="ES">
+    
+    <!-- Open Graph (redes sociales) -->
+    <meta property="og:title" content="Ordénate - Ordena tu cuarto para ordenar tu mente">
+    <meta property="og:description" content="Un asistente de IA que te guía a ordenar tu cuarto y, con eso, ordena tu mente.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ordenate.vercel.app">
+    <meta property="og:locale" content="es_ES">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ordénate - Ordena tu cuarto para ordenar tu mente">
+    <meta name="twitter:description" content="App con IA que te guía paso a paso. Prueba gratis 7 días.">
+    
+    <!-- Seguridad -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://ordenate.vercel.app/">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-lighter: #1a1a1a;
+            --text-primary: #f5f5f5;
+            --text-secondary: #b0b0b0;
+            --accent: #ffffff;
+            --border: #2a2a2a;
+            --font-mono: 'Courier New', monospace;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 40px 20px;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 600px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero h1 {
+            font-family: var(--font-mono);
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 400;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .fomo-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-family: var(--font-mono);
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 80px 20px;
+            background-color: var(--bg-lighter);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .problem .container {
+            max-width: 700px;
+        }
+
+        .section-title {
+            font-family: var(--font-mono);
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .problem-text {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .problem-text strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Solution Section */
+        .solution {
+            padding: 80px 20px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .solution .container {
+            max-width: 700px;
+        }
+
+        .solution-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .solution-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 20px;
+        }
+
+        .solution-item:last-child {
+            border-bottom: none;
+        }
+
+        .solution-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .solution-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .solution-text strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 20px;
+            background-color: var(--bg-lighter);
+            border-top: 1px solid var(--border);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cta-heading {
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-size: 1rem;
+            border-radius: 4px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--accent);
+            color: var(--bg-dark);
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .cta-button:hover {
+            background-color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        .form-note {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 15px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            border-bottom: 1px solid var(--text-secondary);
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        footer a:hover {
+            border-color: var(--text-primary);
+        }
+
+        /* Cookie Banner */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--bg-lighter);
+            border-top: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+            font-size: 0.9rem;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        #cookie-banner p {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        #cookie-banner a {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        #cookie-accept {
+            background-color: var(--accent);
+            color: var(--bg-dark);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: background-color 0.3s;
+        }
+
+        #cookie-accept:hover {
+            background-color: var(--text-primary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: var(--bg-dark);
+            margin: auto;
+            padding: 40px;
+            border: 1px solid var(--border);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            color: var(--text-secondary);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal h1 {
+            font-family: var(--font-mono);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .modal h2 {
+            font-family: var(--font-mono);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .modal p, .modal li {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .modal ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 80vh;
+                padding: 40px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .problem,
+            .solution,
+            .cta-section {
+                padding: 60px 20px;
+            }
+
+            .solution-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            #cookie-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .modal-content {
+                padding: 20px;
+                width: 95%;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <svg class="hero-bg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="200" y1="40" x2="200" y2="360" stroke="currentColor" stroke-width="1" opacity="0.2" stroke-dasharray="5,5"/>
+            <g opacity="0.3">
+                <rect x="20" y="50" width="70" height="50" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(-25 55 75)"/>
+                <rect x="50" y="100" width="60" height="45" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(35 80 122)"/>
+                <circle cx="45" cy="200" r="25" fill="none" stroke="currentColor" stroke-width="2"/>
+                <circle cx="90" cy="150" r="20" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(-45 90 150)"/>
+                <path d="M30 250 L85 220 L70 300 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                <polygon points="60,300 100,280 95,330 50,330" fill="none" stroke="currentColor" stroke-width="2"/>
+                <line x1="25" y1="320" x2="95" y2="310" stroke="currentColor" stroke-width="2"/>
+            </g>
+            <g opacity="0.5">
+                <rect x="230" y="80" width="70" height="50" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect x="230" y="150" width="70" height="50" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect x="230" y="220" width="70" height="50" fill="none" stroke="currentColor" stroke-width="2"/>
+                <line x1="220" y1="65" x2="310" y2="65" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                <line x1="220" y1="135" x2="310" y2="135" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                <line x1="220" y1="205" x2="310" y2="205" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+            </g>
+        </svg>
+
+        <div class="hero-content">
+            <div class="fomo-badge">👥 128 personas ya en la lista</div>
+            <h1>¿Y si el primer paso<br>para ordenar tu mente<br>fuera ordenar tu cuarto?</h1>
+            <p class="hero-subtitle">No es sobre limpiar. Es sobre pensar con claridad. Un asistente de IA que te guía paso a paso.</p>
+            <a href="#cta" style="text-decoration: none;">
+                <button class="cta-button" style="background-color: var(--accent); color: var(--bg-dark); max-width: 300px; margin: 30px auto 0;">
+                    Únete a la lista de espera
+                </button>
+            </a>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <div class="container">
+            <h2 class="section-title">El problema real</h2>
+            <p class="problem-text">
+                Tu cuarto está desordenado. No por falta de voluntad, sino por <strong>falta de un plan claro</strong>.
+            </p>
+            <p class="problem-text">
+                Intentas ordenar, pero no sabes por dónde empezar. Te abruma. Dejas todo a mitad. Y después tu mente está igual de caótica que tu espacio.
+            </p>
+            <p class="problem-text">
+                <strong>El desorden no es un problema de organización. Es un problema de claridad.</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution">
+        <div class="container">
+            <h2 class="section-title">La solución: Ordénate</h2>
+            <ul class="solution-list">
+                <li class="solution-item">
+                    <span class="solution-icon">📱</span>
+                    <div class="solution-text">
+                        <strong>Un asistente de IA que te entiende</strong>
+                        Sube una foto de tu cuarto. La IA analiza qué te agobia más y te propone un plan real.
+                    </div>
+                </li>
+                <li class="solution-item">
+                    <span class="solution-icon">✅</span>
+                    <div class="solution-text">
+                        <strong>Pasos pequeños, uno a la vez</strong>
+                        No listas imposibles. Solo el próximo paso, de 5 a 15 minutos. Factible.
+                    </div>
+                </li>
+                <li class="solution-item">
+                    <span class="solution-icon">🧠</span>
+                    <div class="solution-text">
+                        <strong>El resultado no es el orden: es tu mente clara</strong>
+                        Cuando termines, no solo tu cuarto estará ordenado. Tú estarás más centrado.
+                    </div>
+                </li>
+                <li class="solution-item">
+                    <span class="solution-icon">⏱️</span>
+                    <div class="solution-text">
+                        <strong>Encaja en tu tiempo real</strong>
+                        ¿Tienes 10 minutos? Perfecto. ¿1 hora? Mejor aún. No hay planes de 8 horas.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="cta">
+        <div class="cta-content">
+            <h2 class="cta-heading">¿Listo para empezar?</h2>
+            <p class="problem-text" style="margin-bottom: 30px;">
+                Acceso anticipado a la lista de espera. Prueba gratuita de 7 días cuando lancemos.
+            </p>
+            <form onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Tu nombre" required aria-label="Tu nombre">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Tu email" required aria-label="Tu email">
+                </div>
+                <button type="submit" class="cta-button">Únete a la lista de espera</button>
+                <p class="form-note">Sin spam. Solo noticias cuando lancemos.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Ordénate © 2026 — <a onclick="openPrivacy()">Política de privacidad</a> · <a onclick="openTerms()">Términos de servicio</a></p>
+        <p style="margin-top: 10px; font-size: 0.8rem;">Síguenos en <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a> · <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer">TikTok</a></p>
+    </footer>
+
+    <!-- Cookie Banner -->
+    <div id="cookie-banner">
+        <p>Usamos cookies para mejorar tu experiencia. Al continuar, aceptas nuestra <a onclick="openPrivacy()">política de privacidad</a>.</p>
+        <button id="cookie-accept">Aceptar</button>
+    </div>
+
+    <!-- Modal Privacidad -->
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closePrivacy()">&times;</span>
+            <h1>Política de Privacidad</h1>
+            <p><strong>Última actualización: 25 de octubre de 2026</strong></p>
+
+            <h2>1. Responsable del tratamiento</h2>
+            <p>Ordénate es responsable del tratamiento de tus datos personales.</p>
+
+            <h2>2. Datos que recogemos</h2>
+            <p>Cuando te registras en la lista de espera:
+                <ul>
+                    <li><strong>Nombre</strong> - Para personalizar la comunicación</li>
+                    <li><strong>Email</strong> - Para contactarte cuando lancemos la app</li>
+                </ul>
+            </p>
+
+            <h2>3. Cómo usamos tus datos</h2>
+            <p>Usamos tu email únicamente para:
+                <ul>
+                    <li>Notificarte cuando Ordénate esté lista</li>
+                    <li>Enviarte actualizaciones sobre el desarrollo (puedes darte de baja en cualquier momento)</li>
+                </ul>
+                <strong>Nunca venderemos ni compartiremos tus datos con terceros.</strong>
+            </p>
+
+            <h2>4. Tus derechos RGPD</h2>
+            <p>Tienes derecho a:
+                <ul>
+                    <li><strong>Acceso:</strong> Saber qué datos tenemos sobre ti</li>
+                    <li><strong>Rectificación:</strong> Corregir datos inexactos</li>
+                    <li><strong>Supresión:</strong> Que borremos tus datos</li>
+                    <li><strong>Portabilidad:</strong> Recibir tus datos en formato transferible</li>
+                </ul>
+            </p>
+
+            <h2>5. Cookies</h2>
+            <p>Usamos cookies mínimas para recordar tus preferencias. Estas no rastrean tu actividad en otros sitios.</p>
+
+            <h2>6. Contacto</h2>
+            <p>Si tienes preguntas, contáctanos respondiendo al email de confirmación.</p>
+        </div>
+    </div>
+
+    <!-- Modal Términos -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeTerms()">&times;</span>
+            <h1>Términos de Servicio</h1>
+            <p><strong>Última actualización: 25 de octubre de 2026</strong></p>
+
+            <h2>1. Aceptación de términos</h2>
+            <p>Al registrarte en Ordénate, aceptas estos términos en su totalidad.</p>
+
+            <h2>2. Descripción del servicio</h2>
+            <p>Ordénate es una aplicación (iOS y Android) que usa IA para ayudarte a ordenar tu cuarto y clarificar tu mente. El servicio incluye análisis de fotos, guía paso a paso y seguimiento de progreso.</p>
+
+            <h2>3. Prueba gratuita y suscripción</h2>
+            <p><strong>Prueba gratuita:</strong> 7 días sin costo. Requiere tarjeta de crédito y se renueva automáticamente.</p>
+            <p><strong>Suscripción:</strong> 6,99€/mes. Puedes cancelar en cualquier momento.</p>
+
+            <h2>4. Contenido del usuario</h2>
+            <p>Las fotos que subes:
+                <ul>
+                    <li>Solo se usan para análisis de IA</li>
+                    <li>Se procesan de forma privada</li>
+                    <li>Puedes eliminarlas en cualquier momento</li>
+                </ul>
+            </p>
+
+            <h2>5. Limitaciones de responsabilidad</h2>
+            <p>Ordénate se proporciona "tal cual" sin garantías. No somos responsables de daños o pérdidas causadas por interrupciones del servicio.</p>
+
+            <h2>6. Conducta del usuario</h2>
+            <p>Aceptas no usar la app para actividades ilegales ni acosar a otros usuarios.</p>
+
+            <h2>7. Contacto</h2>
+            <p>Si tienes preguntas, contáctanos respondiendo al email de confirmación.</p>
+        </div>
+    </div>
+
+    <script>
+        // Contador dinámico de personas en la lista
+        let contador = 128;
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            
+            // Incrementa el contador
+            contador++;
+            const badge = document.querySelector('.fomo-badge');
+            badge.textContent = `👥 ${contador} personas ya en la lista`;
+            
+            alert(`¡Gracias ${name}! ¡Ya eres uno de ${contador}! Te contactaremos cuando lancemos.`);
+            
+            document.querySelector('form').reset();
+            localStorage.setItem('ordenate-contador', contador);
+        }
+
+        // Modales
+        function openPrivacy() {
+            document.getElementById('privacyModal').style.display = 'block';
+        }
+
+        function closePrivacy() {
+            document.getElementById('privacyModal').style.display = 'none';
+        }
+
+        function openTerms() {
+            document.getElementById('termsModal').style.display = 'block';
+        }
+
+        function closeTerms() {
+            document.getElementById('termsModal').style.display = 'none';
+        }
+
+        // Cerrar modal al hacer click fuera
+        window.onclick = function(event) {
+            const privacyModal = document.getElementById('privacyModal');
+            const termsModal = document.getElementById('termsModal');
+            
+            if (event.target == privacyModal) {
+                privacyModal.style.display = 'none';
+            }
+            if (event.target == termsModal) {
+                termsModal.style.display = 'none';
+            }
+        }
+
+        // Cargar el contador cuando la página se abre
+        document.addEventListener('DOMContentLoaded', function() {
+            const contadorGuardado = localStorage.getItem('ordenate-contador');
+            if (contadorGuardado) {
+                contador = parseInt(contadorGuardado);
+                document.querySelector('.fomo-badge').textContent = `👥 ${contador} personas ya en la lista`;
+            }
+
+            // Mostrar/ocultar cookie banner
+            const cookieAccepted = localStorage.getItem('ordenate-cookies-accepted');
+            if (cookieAccepted) {
+                document.getElementById('cookie-banner').style.display = 'none';
+            }
+
+            // Aceptar cookies
+            document.getElementById('cookie-accept').addEventListener('click', function() {
+                localStorage.setItem('ordenate-cookies-accepted', 'true');
+                document.getElementById('cookie-banner').style.display = 'none';
+            });
+        });
+    </script>
+
+    <!-- Schema.org (SEO Estructurado) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Ordénate",
+        "description": "App con IA que te guía para ordenar tu cuarto y ordenar tu mente",
+        "url": "https://ordenate.vercel.app",
+        "applicationCategory": "Productivity",
+        "operatingSystem": "Android, iOS",
+        "inLanguage": "es-ES",
+        "countryOfOrigin": "ES",
+        "offers": {
+            "@type": "Offer",
+            "price": "6.99",
+            "priceCurrency": "EUR"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "ratingCount": "128"
+        }
+    }
+    </script>
+</body>
+</html>
